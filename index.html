@@ -1,0 +1,2203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
+    >
+
+    <meta name="theme-color" content="#050711">
+    <meta
+        name="description"
+        content="NEON DASH — an original neon rhythm-platformer."
+    >
+
+    <title>NEON DASH</title>
+
+    <link rel="stylesheet" href="main.css">
+</head>
+
+<body>
+
+    <!-- =========================================================
+         APPLICATION ROOT
+         ========================================================= -->
+
+    <div id="app">
+
+        <!-- =====================================================
+             BACKGROUND
+             ===================================================== -->
+
+        <div id="background-layer" aria-hidden="true">
+            <div id="background-grid"></div>
+            <div id="background-glow"></div>
+            <div id="background-shapes"></div>
+            <div id="background-particles"></div>
+        </div>
+
+
+        <!-- =====================================================
+             PORTRAIT / LANDSCAPE WARNING
+             ===================================================== -->
+
+        <div id="orientation-overlay" class="overlay hidden">
+            <div class="orientation-card">
+                <div class="orientation-icon">↻</div>
+                <h2>ROTATE DEVICE</h2>
+                <p>
+                    NEON DASH is designed for landscape gameplay.
+                    Please rotate your device.
+                </p>
+            </div>
+        </div>
+
+
+        <!-- =====================================================
+             GLOBAL LOADING SCREEN
+             ===================================================== -->
+
+        <section id="loading-screen" class="screen active">
+            <div class="loading-content">
+
+                <div class="brand-mark">
+                    <span class="brand-neon">NEON</span>
+                    <span class="brand-dash">DASH</span>
+                </div>
+
+                <div class="loading-bar">
+                    <div id="loading-progress"></div>
+                </div>
+
+                <p id="loading-text">INITIALIZING SYSTEM...</p>
+
+            </div>
+        </section>
+
+
+        <!-- =====================================================
+             MAIN MENU
+             ===================================================== -->
+
+        <main id="main-menu" class="screen hidden">
+
+            <header class="top-bar">
+
+                <button
+                    id="menu-profile-button"
+                    class="icon-button"
+                    type="button"
+                    aria-label="Open profile"
+                >
+                    <span class="button-icon">◈</span>
+                </button>
+
+                <div class="top-brand">
+                    <span>NEON</span>
+                    <strong>DASH</strong>
+                </div>
+
+                <button
+                    id="menu-settings-button"
+                    class="icon-button"
+                    type="button"
+                    aria-label="Open settings"
+                >
+                    <span class="button-icon">⚙</span>
+                </button>
+
+            </header>
+
+
+            <div class="menu-layout">
+
+                <!-- PLAYER PREVIEW -->
+
+                <section class="player-preview-panel panel">
+
+                    <div class="panel-label">PLAYER</div>
+
+                    <div id="menu-player-preview" class="player-preview">
+                        <canvas
+                            id="menu-player-canvas"
+                            width="240"
+                            height="240"
+                            aria-label="Player preview"
+                        ></canvas>
+                    </div>
+
+                    <div class="player-name">
+                        <span id="menu-username">SAII</span>
+                    </div>
+
+                    <button
+                        id="menu-edit-profile-button"
+                        class="small-button"
+                        type="button"
+                    >
+                        EDIT PROFILE
+                    </button>
+
+                </section>
+
+
+                <!-- MAIN ACTIONS -->
+
+                <section class="main-actions">
+
+                    <div class="main-title">
+                        <div class="title-small">WELCOME TO</div>
+                        <h1>
+                            <span>NEON</span>
+                            <strong>DASH</strong>
+                        </h1>
+                        <p>RUN. JUMP. SURVIVE.</p>
+                    </div>
+
+                    <div class="primary-buttons">
+
+                        <button
+                            id="play-button"
+                            class="menu-button primary"
+                            type="button"
+                        >
+                            <span>PLAY</span>
+                            <small>LEVEL SELECT</small>
+                        </button>
+
+                        <button
+                            id="create-button"
+                            class="menu-button"
+                            type="button"
+                        >
+                            <span>CREATE</span>
+                            <small>LEVEL EDITOR</small>
+                        </button>
+
+                        <button
+                            id="online-button"
+                            class="menu-button"
+                            type="button"
+                        >
+                            <span>ONLINE</span>
+                            <small>COMMUNITY</small>
+                        </button>
+
+                    </div>
+
+                </section>
+
+
+                <!-- PLAYER STATS -->
+
+                <section class="stats-panel panel">
+
+                    <div class="panel-label">STATS</div>
+
+                    <div class="stat-list">
+
+                        <div class="stat-item">
+                            <span class="stat-icon stars-icon">★</span>
+                            <div>
+                                <small>STARS</small>
+                                <strong id="menu-stars">0</strong>
+                            </div>
+                        </div>
+
+                        <div class="stat-item">
+                            <span class="stat-icon coins-icon">●</span>
+                            <div>
+                                <small>COINS</small>
+                                <strong id="menu-coins">0</strong>
+                            </div>
+                        </div>
+
+                        <div class="stat-item">
+                            <span class="stat-icon diamonds-icon">◆</span>
+                            <div>
+                                <small>DIAMONDS</small>
+                                <strong id="menu-diamonds">0</strong>
+                            </div>
+                        </div>
+
+                        <div class="stat-item">
+                            <span class="stat-icon creator-icon">✦</span>
+                            <div>
+                                <small>CREATOR</small>
+                                <strong id="menu-creator-points">0</strong>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </section>
+
+            </div>
+
+
+            <!-- DAILY CHALLENGE -->
+
+            <section id="daily-challenge-card" class="daily-card panel">
+
+                <div class="daily-info">
+
+                    <div class="panel-label">DAILY CHALLENGE</div>
+
+                    <h2 id="daily-level-name">NEON START</h2>
+
+                    <div class="daily-meta">
+                        <span id="daily-difficulty">EASY</span>
+                        <span id="daily-stars">5 ★</span>
+                    </div>
+
+                </div>
+
+                <div class="daily-action">
+
+                    <div class="daily-countdown">
+                        <small>NEXT RESET</small>
+                        <strong id="daily-countdown">--:--:--</strong>
+                    </div>
+
+                    <button
+                        id="daily-play-button"
+                        class="small-button primary-small"
+                        type="button"
+                    >
+                        PLAY
+                    </button>
+
+                </div>
+
+            </section>
+
+
+            <!-- BOTTOM NAVIGATION -->
+
+            <nav id="main-navigation" class="bottom-navigation">
+
+                <button
+                    id="nav-profile"
+                    class="nav-button"
+                    type="button"
+                    data-screen="profile"
+                >
+                    <span>◈</span>
+                    <small>PROFILE</small>
+                </button>
+
+                <button
+                    id="nav-achievements"
+                    class="nav-button"
+                    type="button"
+                    data-screen="achievements"
+                >
+                    <span>★</span>
+                    <small>ACHIEVEMENTS</small>
+                </button>
+
+                <button
+                    id="nav-shop"
+                    class="nav-button"
+                    type="button"
+                    data-screen="shop"
+                >
+                    <span>◇</span>
+                    <small>SHOP</small>
+                </button>
+
+                <button
+                    id="nav-settings"
+                    class="nav-button"
+                    type="button"
+                    data-screen="settings"
+                >
+                    <span>⚙</span>
+                    <small>SETTINGS</small>
+                </button>
+
+            </nav>
+
+        </main>
+
+
+        <!-- =====================================================
+             LEVEL SELECT
+             ===================================================== -->
+
+        <section id="level-select-screen" class="screen hidden">
+
+            <header class="screen-header">
+
+                <button
+                    id="level-select-back"
+                    class="back-button"
+                    type="button"
+                    aria-label="Back"
+                >
+                    ←
+                </button>
+
+                <div>
+                    <span class="header-label">PLAY</span>
+                    <h2>LEVEL SELECT</h2>
+                </div>
+
+            </header>
+
+
+            <div class="level-filter-bar">
+
+                <button
+                    class="filter-button active"
+                    type="button"
+                    data-filter="all"
+                >
+                    AUTO
+                </button>
+
+                <button
+                    class="filter-button"
+                    type="button"
+                    data-filter="easy"
+                >
+                    EASY
+                </button>
+
+                <button
+                    class="filter-button"
+                    type="button"
+                    data-filter="normal"
+                >
+                    NORMAL
+                </button>
+
+                <button
+                    class="filter-button"
+                    type="button"
+                    data-filter="hard"
+                >
+                    HARD
+                </button>
+
+                <button
+                    class="filter-button"
+                    type="button"
+                    data-filter="harder"
+                >
+                    HARDER
+                </button>
+
+                <button
+                    class="filter-button"
+                    type="button"
+                    data-filter="insane"
+                >
+                    INSANE
+                </button>
+
+                <button
+                    class="filter-button"
+                    type="button"
+                    data-filter="extreme"
+                >
+                    EXTREME
+                </button>
+
+            </div>
+
+
+            <div id="level-grid" class="level-grid">
+
+                <!-- LEVEL 1 -->
+
+                <article
+                    id="level-card-1"
+                    class="level-card"
+                    data-level-id="1"
+                    data-difficulty="easy"
+                >
+
+                    <div class="level-number">01</div>
+
+                    <div class="level-card-content">
+
+                        <div class="level-card-top">
+                            <span class="level-difficulty easy">
+                                EASY
+                            </span>
+
+                            <span
+                                id="level-1-complete"
+                                class="completion-indicator"
+                            >
+                                —
+                            </span>
+                        </div>
+
+                        <h3>NEON START</h3>
+
+                        <div class="level-card-stats">
+
+                            <span>
+                                <b id="level-1-stars">5</b> ★
+                            </span>
+
+                            <span>
+                                <b id="level-1-coins">3</b> ●
+                            </span>
+
+                            <span>
+                                BEST
+                                <b id="level-1-best">0%</b>
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </article>
+
+
+                <!-- LEVEL 2 -->
+
+                <article
+                    id="level-card-2"
+                    class="level-card"
+                    data-level-id="2"
+                    data-difficulty="normal"
+                >
+
+                    <div class="level-number">02</div>
+
+                    <div class="level-card-content">
+
+                        <div class="level-card-top">
+                            <span class="level-difficulty normal">
+                                NORMAL
+                            </span>
+
+                            <span
+                                id="level-2-complete"
+                                class="completion-indicator"
+                            >
+                                —
+                            </span>
+                        </div>
+
+                        <h3>NEON RUSH</h3>
+
+                        <div class="level-card-stats">
+                            <span>
+                                <b id="level-2-stars">7</b> ★
+                            </span>
+
+                            <span>
+                                <b id="level-2-coins">3</b> ●
+                            </span>
+
+                            <span>
+                                BEST
+                                <b id="level-2-best">0%</b>
+                            </span>
+                        </div>
+
+                    </div>
+
+                </article>
+
+
+                <!-- LEVEL 3 -->
+
+                <article
+                    id="level-card-3"
+                    class="level-card"
+                    data-level-id="3"
+                    data-difficulty="hard"
+                >
+
+                    <div class="level-number">03</div>
+
+                    <div class="level-card-content">
+
+                        <div class="level-card-top">
+                            <span class="level-difficulty hard">
+                                HARD
+                            </span>
+
+                            <span
+                                id="level-3-complete"
+                                class="completion-indicator"
+                            >
+                                —
+                            </span>
+                        </div>
+
+                        <h3>NEON CIRCUIT</h3>
+
+                        <div class="level-card-stats">
+                            <span>
+                                <b id="level-3-stars">10</b> ★
+                            </span>
+
+                            <span>
+                                <b id="level-3-coins">3</b> ●
+                            </span>
+
+                            <span>
+                                BEST
+                                <b id="level-3-best">0%</b>
+                            </span>
+                        </div>
+
+                    </div>
+
+                </article>
+
+
+                <!-- LEVEL 4 -->
+
+                <article
+                    id="level-card-4"
+                    class="level-card"
+                    data-level-id="4"
+                    data-difficulty="harder"
+                >
+
+                    <div class="level-number">04</div>
+
+                    <div class="level-card-content">
+
+                        <div class="level-card-top">
+                            <span class="level-difficulty harder">
+                                HARDER
+                            </span>
+
+                            <span
+                                id="level-4-complete"
+                                class="completion-indicator"
+                            >
+                                —
+                            </span>
+                        </div>
+
+                        <h3>NEON FACTORY</h3>
+
+                        <div class="level-card-stats">
+                            <span>
+                                <b id="level-4-stars">12</b> ★
+                            </span>
+
+                            <span>
+                                <b id="level-4-coins">3</b> ●
+                            </span>
+
+                            <span>
+                                BEST
+                                <b id="level-4-best">0%</b>
+                            </span>
+                        </div>
+
+                    </div>
+
+                </article>
+
+
+                <!-- LEVEL 5 -->
+
+                <article
+                    id="level-card-5"
+                    class="level-card"
+                    data-level-id="5"
+                    data-difficulty="insane"
+                >
+
+                    <div class="level-number">05</div>
+
+                    <div class="level-card-content">
+
+                        <div class="level-card-top">
+                            <span class="level-difficulty insane">
+                                INSANE
+                            </span>
+
+                            <span
+                                id="level-5-complete"
+                                class="completion-indicator"
+                            >
+                                —
+                            </span>
+                        </div>
+
+                        <h3>NEON STORM</h3>
+
+                        <div class="level-card-stats">
+                            <span>
+                                <b id="level-5-stars">15</b> ★
+                            </span>
+
+                            <span>
+                                <b id="level-5-coins">3</b> ●
+                            </span>
+
+                            <span>
+                                BEST
+                                <b id="level-5-best">0%</b>
+                            </span>
+                        </div>
+
+                    </div>
+
+                </article>
+
+
+                <!-- LEVEL 6 -->
+
+                <article
+                    id="level-card-6"
+                    class="level-card"
+                    data-level-id="6"
+                    data-difficulty="extreme"
+                >
+
+                    <div class="level-number">06</div>
+
+                    <div class="level-card-content">
+
+                        <div class="level-card-top">
+                            <span class="level-difficulty extreme">
+                                EXTREME
+                            </span>
+
+                            <span
+                                id="level-6-complete"
+                                class="completion-indicator"
+                            >
+                                —
+                            </span>
+                        </div>
+
+                        <h3>NEON APOCALYPSE</h3>
+
+                        <div class="level-card-stats">
+                            <span>
+                                <b id="level-6-stars">20</b> ★
+                            </span>
+
+                            <span>
+                                <b id="level-6-coins">3</b> ●
+                            </span>
+
+                            <span>
+                                BEST
+                                <b id="level-6-best">0%</b>
+                            </span>
+                        </div>
+
+                    </div>
+
+                </article>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             LEVEL DETAILS
+             ===================================================== -->
+
+        <section id="level-details-screen" class="screen hidden">
+
+            <header class="screen-header">
+
+                <button
+                    id="level-details-back"
+                    class="back-button"
+                    type="button"
+                >
+                    ←
+                </button>
+
+                <div>
+                    <span class="header-label">LEVEL</span>
+                    <h2 id="details-level-name">NEON START</h2>
+                </div>
+
+            </header>
+
+
+            <div class="level-details-layout">
+
+                <div class="level-preview panel">
+
+                    <div class="preview-number" id="details-level-number">
+                        01
+                    </div>
+
+                    <div
+                        id="details-level-preview"
+                        class="level-preview-visual"
+                    >
+                        <canvas
+                            id="level-preview-canvas"
+                            width="640"
+                            height="300"
+                        ></canvas>
+                    </div>
+
+                </div>
+
+
+                <div class="level-details-info panel">
+
+                    <div class="detail-difficulty">
+                        <span>DIFFICULTY</span>
+                        <strong id="details-difficulty">EASY</strong>
+                    </div>
+
+                    <div class="detail-stats">
+
+                        <div>
+                            <small>STARS</small>
+                            <strong id="details-stars">5</strong>
+                        </div>
+
+                        <div>
+                            <small>COINS</small>
+                            <strong id="details-coins">3</strong>
+                        </div>
+
+                        <div>
+                            <small>BEST</small>
+                            <strong id="details-best">0%</strong>
+                        </div>
+
+                        <div>
+                            <small>ATTEMPTS</small>
+                            <strong id="details-attempts">0</strong>
+                        </div>
+
+                    </div>
+
+                    <div class="details-description">
+                        <p id="details-description">
+                            Begin your neon journey.
+                        </p>
+                    </div>
+
+                    <div class="details-actions">
+
+                        <button
+                            id="details-play-button"
+                            class="large-button primary"
+                            type="button"
+                        >
+                            PLAY
+                        </button>
+
+                        <button
+                            id="details-practice-button"
+                            class="large-button"
+                            type="button"
+                        >
+                            PRACTICE
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             GAME SCREEN
+             ===================================================== -->
+
+        <section id="game-screen" class="screen hidden game-screen">
+
+            <div id="game-container">
+
+                <canvas
+                    id="game-canvas"
+                    width="1280"
+                    height="720"
+                    tabindex="0"
+                    aria-label="NEON DASH game canvas"
+                ></canvas>
+
+
+                <!-- GAME HUD -->
+
+                <div id="game-hud">
+
+                    <div class="hud-left">
+
+                        <div class="hud-level">
+                            <small>LEVEL</small>
+                            <strong id="hud-level-name">
+                                NEON START
+                            </strong>
+                        </div>
+
+                    </div>
+
+
+                    <div class="hud-center">
+
+                        <div class="hud-progress-text">
+                            <span id="hud-progress">0%</span>
+                        </div>
+
+                        <div class="hud-progress-bar">
+                            <div id="hud-progress-fill"></div>
+                        </div>
+
+                    </div>
+
+
+                    <div class="hud-right">
+
+                        <button
+                            id="pause-button"
+                            class="hud-button"
+                            type="button"
+                            aria-label="Pause game"
+                        >
+                            II
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <!-- RUN DATA -->
+
+                <div id="run-data">
+
+                    <div class="run-stat">
+                        <span>COINS</span>
+                        <strong id="hud-coins">0 / 3</strong>
+                    </div>
+
+                    <div class="run-stat">
+                        <span>ATTEMPT</span>
+                        <strong id="hud-attempt">1</strong>
+                    </div>
+
+                </div>
+
+
+                <!-- MOBILE ACTION -->
+
+                <button
+                    id="mobile-action"
+                    class="mobile-action-button"
+                    type="button"
+                    aria-label="Jump"
+                >
+                    JUMP
+                </button>
+
+
+                <!-- GAME PAUSE OVERLAY -->
+
+                <div
+                    id="pause-overlay"
+                    class="game-overlay hidden"
+                >
+
+                    <div class="game-overlay-card">
+
+                        <span class="overlay-label">GAME PAUSED</span>
+
+                        <h2>PAUSED</h2>
+
+                        <div class="overlay-actions">
+
+                            <button
+                                id="resume-button"
+                                class="large-button primary"
+                                type="button"
+                            >
+                                RESUME
+                            </button>
+
+                            <button
+                                id="pause-restart-button"
+                                class="large-button"
+                                type="button"
+                            >
+                                RESTART
+                            </button>
+
+                            <button
+                                id="pause-settings-button"
+                                class="large-button"
+                                type="button"
+                            >
+                                SETTINGS
+                            </button>
+
+                            <button
+                                id="pause-exit-button"
+                                class="large-button danger"
+                                type="button"
+                            >
+                                EXIT LEVEL
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- DEATH OVERLAY -->
+
+                <div
+                    id="death-overlay"
+                    class="game-overlay hidden"
+                >
+
+                    <div class="game-overlay-card">
+
+                        <span class="overlay-label">RUN ENDED</span>
+
+                        <h2>YOU CRASHED</h2>
+
+                        <div class="result-stats">
+
+                            <div>
+                                <small>PROGRESS</small>
+                                <strong id="death-progress">0%</strong>
+                            </div>
+
+                            <div>
+                                <small>ATTEMPT</small>
+                                <strong id="death-attempt">1</strong>
+                            </div>
+
+                            <div>
+                                <small>COINS</small>
+                                <strong id="death-coins">0 / 3</strong>
+                            </div>
+
+                        </div>
+
+                        <div class="overlay-actions">
+
+                            <button
+                                id="death-retry-button"
+                                class="large-button primary"
+                                type="button"
+                            >
+                                RETRY
+                            </button>
+
+                            <button
+                                id="death-exit-button"
+                                class="large-button"
+                                type="button"
+                            >
+                                EXIT
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- COMPLETION OVERLAY -->
+
+                <div
+                    id="completion-overlay"
+                    class="game-overlay hidden"
+                >
+
+                    <div class="game-overlay-card completion-card">
+
+                        <span class="overlay-label">
+                            LEVEL COMPLETE
+                        </span>
+
+                        <h2 id="completion-title">
+                            NEON START
+                        </h2>
+
+                        <div class="completion-badge">
+                            ✓
+                        </div>
+
+                        <div class="result-stats">
+
+                            <div>
+                                <small>ATTEMPTS</small>
+                                <strong id="completion-attempts">
+                                    1
+                                </strong>
+                            </div>
+
+                            <div>
+                                <small>COINS</small>
+                                <strong id="completion-coins">
+                                    0 / 3
+                                </strong>
+                            </div>
+
+                            <div>
+                                <small>STARS</small>
+                                <strong id="completion-stars">
+                                    5
+                                </strong>
+                            </div>
+
+                        </div>
+
+                        <div class="overlay-actions">
+
+                            <button
+                                id="completion-replay-button"
+                                class="large-button primary"
+                                type="button"
+                            >
+                                REPLAY
+                            </button>
+
+                            <button
+                                id="completion-menu-button"
+                                class="large-button"
+                                type="button"
+                            >
+                                LEVEL SELECT
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             PROFILE
+             ===================================================== -->
+
+        <section id="profile-screen" class="screen hidden">
+
+            <header class="screen-header">
+
+                <button
+                    id="profile-back"
+                    class="back-button"
+                    type="button"
+                >
+                    ←
+                </button>
+
+                <div>
+                    <span class="header-label">PLAYER</span>
+                    <h2>PROFILE</h2>
+                </div>
+
+            </header>
+
+
+            <div class="profile-layout">
+
+                <section class="profile-identity panel">
+
+                    <div class="profile-avatar">
+                        <canvas
+                            id="profile-player-canvas"
+                            width="220"
+                            height="220"
+                        ></canvas>
+                    </div>
+
+                    <h2 id="profile-username">SAII</h2>
+
+                    <button
+                        id="profile-edit-button"
+                        class="small-button"
+                        type="button"
+                    >
+                        EDIT PROFILE
+                    </button>
+
+                </section>
+
+
+                <section class="profile-stat-grid">
+
+                    <div class="profile-stat panel">
+                        <small>STARS</small>
+                        <strong id="profile-stars">0</strong>
+                    </div>
+
+                    <div class="profile-stat panel">
+                        <small>COINS</small>
+                        <strong id="profile-coins">0</strong>
+                    </div>
+
+                    <div class="profile-stat panel">
+                        <small>DIAMONDS</small>
+                        <strong id="profile-diamonds">0</strong>
+                    </div>
+
+                    <div class="profile-stat panel">
+                        <small>CREATOR POINTS</small>
+                        <strong id="profile-creator-points">0</strong>
+                    </div>
+
+                    <div class="profile-stat panel">
+                        <small>COMPLETED</small>
+                        <strong id="profile-completed">0 / 6</strong>
+                    </div>
+
+                    <div class="profile-stat panel">
+                        <small>CREATED LEVELS</small>
+                        <strong id="profile-created-levels">0</strong>
+                    </div>
+
+                </section>
+
+
+                <section class="profile-progress panel">
+
+                    <div class="panel-label">
+                        DIFFICULTY PROGRESS
+                    </div>
+
+                    <div class="difficulty-progress">
+
+                        <div class="difficulty-row">
+                            <span>EASY</span>
+                            <div class="progress-track">
+                                <div
+                                    id="profile-progress-easy"
+                                    class="progress-fill"
+                                ></div>
+                            </div>
+                        </div>
+
+                        <div class="difficulty-row">
+                            <span>NORMAL</span>
+                            <div class="progress-track">
+                                <div
+                                    id="profile-progress-normal"
+                                    class="progress-fill"
+                                ></div>
+                            </div>
+                        </div>
+
+                        <div class="difficulty-row">
+                            <span>HARD</span>
+                            <div class="progress-track">
+                                <div
+                                    id="profile-progress-hard"
+                                    class="progress-fill"
+                                ></div>
+                            </div>
+                        </div>
+
+                        <div class="difficulty-row">
+                            <span>HARDER</span>
+                            <div class="progress-track">
+                                <div
+                                    id="profile-progress-harder"
+                                    class="progress-fill"
+                                ></div>
+                            </div>
+                        </div>
+
+                        <div class="difficulty-row">
+                            <span>INSANE</span>
+                            <div class="progress-track">
+                                <div
+                                    id="profile-progress-insane"
+                                    class="progress-fill"
+                                ></div>
+                            </div>
+                        </div>
+
+                        <div class="difficulty-row">
+                            <span>EXTREME</span>
+                            <div class="progress-track">
+                                <div
+                                    id="profile-progress-extreme"
+                                    class="progress-fill"
+                                ></div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </section>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             ACHIEVEMENTS
+             ===================================================== -->
+
+        <section id="achievements-screen" class="screen hidden">
+
+            <header class="screen-header">
+
+                <button
+                    id="achievements-back"
+                    class="back-button"
+                    type="button"
+                >
+                    ←
+                </button>
+
+                <div>
+                    <span class="header-label">PROGRESS</span>
+                    <h2>ACHIEVEMENTS</h2>
+                </div>
+
+            </header>
+
+
+            <div id="achievement-list" class="achievement-list">
+
+                <article
+                    id="achievement-first-step"
+                    class="achievement-card panel"
+                >
+                    <div class="achievement-icon">01</div>
+
+                    <div class="achievement-content">
+                        <h3>FIRST STEP</h3>
+                        <p>Complete 1 level</p>
+
+                        <div class="achievement-progress">
+                            <div
+                                id="achievement-first-step-progress"
+                                class="progress-fill"
+                            ></div>
+                        </div>
+
+                        <small id="achievement-first-step-status">
+                            0 / 1
+                        </small>
+                    </div>
+                </article>
+
+
+                <article
+                    id="achievement-collector"
+                    class="achievement-card panel"
+                >
+                    <div class="achievement-icon">02</div>
+
+                    <div class="achievement-content">
+                        <h3>COLLECTOR</h3>
+                        <p>Collect 10 coins</p>
+
+                        <div class="achievement-progress">
+                            <div
+                                id="achievement-collector-progress"
+                                class="progress-fill"
+                            ></div>
+                        </div>
+
+                        <small id="achievement-collector-status">
+                            0 / 10
+                        </small>
+                    </div>
+                </article>
+
+
+                <article
+                    id="achievement-speedrunner"
+                    class="achievement-card panel"
+                >
+                    <div class="achievement-icon">03</div>
+
+                    <div class="achievement-content">
+                        <h3>SPEEDRUNNER</h3>
+                        <p>Complete a level</p>
+
+                        <div class="achievement-progress">
+                            <div
+                                id="achievement-speedrunner-progress"
+                                class="progress-fill"
+                            ></div>
+                        </div>
+
+                        <small id="achievement-speedrunner-status">
+                            0 / 1
+                        </small>
+                    </div>
+                </article>
+
+
+                <article
+                    id="achievement-creator"
+                    class="achievement-card panel"
+                >
+                    <div class="achievement-icon">04</div>
+
+                    <div class="achievement-content">
+                        <h3>CREATOR</h3>
+                        <p>Create and save a level</p>
+
+                        <div class="achievement-progress">
+                            <div
+                                id="achievement-creator-progress"
+                                class="progress-fill"
+                            ></div>
+                        </div>
+
+                        <small id="achievement-creator-status">
+                            0 / 1
+                        </small>
+                    </div>
+                </article>
+
+
+                <article
+                    id="achievement-master"
+                    class="achievement-card panel"
+                >
+                    <div class="achievement-icon">05</div>
+
+                    <div class="achievement-content">
+                        <h3>MASTER</h3>
+                        <p>Earn 50 stars</p>
+
+                        <div class="achievement-progress">
+                            <div
+                                id="achievement-master-progress"
+                                class="progress-fill"
+                            ></div>
+                        </div>
+
+                        <small id="achievement-master-status">
+                            0 / 50
+                        </small>
+                    </div>
+                </article>
+
+
+                <article
+                    id="achievement-perfect-run"
+                    class="achievement-card panel"
+                >
+                    <div class="achievement-icon">06</div>
+
+                    <div class="achievement-content">
+                        <h3>PERFECT RUN</h3>
+                        <p>Complete a level without dying</p>
+
+                        <div class="achievement-progress">
+                            <div
+                                id="achievement-perfect-run-progress"
+                                class="progress-fill"
+                            ></div>
+                        </div>
+
+                        <small id="achievement-perfect-run-status">
+                            0 / 1
+                        </small>
+                    </div>
+                </article>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             SHOP
+             ===================================================== -->
+
+        <section id="shop-screen" class="screen hidden">
+
+            <header class="screen-header">
+
+                <button
+                    id="shop-back"
+                    class="back-button"
+                    type="button"
+                >
+                    ←
+                </button>
+
+                <div>
+                    <span class="header-label">CUSTOMIZE</span>
+                    <h2>SHOP</h2>
+                </div>
+
+            </header>
+
+
+            <div class="shop-currency panel">
+
+                <div>
+                    <small>COINS</small>
+                    <strong id="shop-coins">0</strong>
+                </div>
+
+                <div>
+                    <small>DIAMONDS</small>
+                    <strong id="shop-diamonds">0</strong>
+                </div>
+
+            </div>
+
+
+            <div class="shop-tabs">
+
+                <button
+                    id="shop-tab-cubes"
+                    class="shop-tab active"
+                    type="button"
+                    data-shop-category="cubes"
+                >
+                    CUBES
+                </button>
+
+                <button
+                    id="shop-tab-trails"
+                    class="shop-tab"
+                    type="button"
+                    data-shop-category="trails"
+                >
+                    TRAILS
+                </button>
+
+                <button
+                    id="shop-tab-effects"
+                    class="shop-tab"
+                    type="button"
+                    data-shop-category="effects"
+                >
+                    EFFECTS
+                </button>
+
+            </div>
+
+
+            <div
+                id="shop-items"
+                class="shop-items"
+            >
+                <!-- Populated by game.js -->
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             SETTINGS
+             ===================================================== -->
+
+        <section id="settings-screen" class="screen hidden">
+
+            <header class="screen-header">
+
+                <button
+                    id="settings-back"
+                    class="back-button"
+                    type="button"
+                >
+                    ←
+                </button>
+
+                <div>
+                    <span class="header-label">SYSTEM</span>
+                    <h2>SETTINGS</h2>
+                </div>
+
+            </header>
+
+
+            <div class="settings-list">
+
+                <!-- AUDIO -->
+
+                <section class="settings-section panel">
+
+                    <div class="panel-label">AUDIO</div>
+
+                    <div class="setting-row">
+
+                        <div>
+                            <strong>MUSIC</strong>
+                            <small>Background audio</small>
+                        </div>
+
+                        <label class="toggle">
+                            <input
+                                id="setting-music"
+                                type="checkbox"
+                                checked
+                            >
+                            <span></span>
+                        </label>
+
+                    </div>
+
+
+                    <div class="setting-row">
+
+                        <div>
+                            <strong>SOUND</strong>
+                            <small>Gameplay sound effects</small>
+                        </div>
+
+                        <label class="toggle">
+                            <input
+                                id="setting-sound"
+                                type="checkbox"
+                                checked
+                            >
+                            <span></span>
+                        </label>
+
+                    </div>
+
+
+                    <div class="setting-row slider-row">
+
+                        <div>
+                            <strong>MUSIC VOLUME</strong>
+                            <small id="music-volume-value">70%</small>
+                        </div>
+
+                        <input
+                            id="setting-music-volume"
+                            class="range-control"
+                            type="range"
+                            min="0"
+                            max="1"
+                            step="0.01"
+                            value="0.7"
+                        >
+
+                    </div>
+
+
+                    <div class="setting-row slider-row">
+
+                        <div>
+                            <strong>SOUND VOLUME</strong>
+                            <small id="sound-volume-value">80%</small>
+                        </div>
+
+                        <input
+                            id="setting-sound-volume"
+                            class="range-control"
+                            type="range"
+                            min="0"
+                            max="1"
+                            step="0.01"
+                            value="0.8"
+                        >
+
+                    </div>
+
+                </section>
+
+
+                <!-- VISUALS -->
+
+                <section class="settings-section panel">
+
+                    <div class="panel-label">VISUALS</div>
+
+                    <div class="setting-row">
+
+                        <div>
+                            <strong>SCREEN SHAKE</strong>
+                            <small>Impact feedback</small>
+                        </div>
+
+                        <label class="toggle">
+                            <input
+                                id="setting-screen-shake"
+                                type="checkbox"
+                                checked
+                            >
+                            <span></span>
+                        </label>
+
+                    </div>
+
+
+                    <div class="setting-row">
+
+                        <div>
+                            <strong>PARTICLES</strong>
+                            <small>Particle effects</small>
+                        </div>
+
+                        <label class="toggle">
+                            <input
+                                id="setting-particles"
+                                type="checkbox"
+                                checked
+                            >
+                            <span></span>
+                        </label>
+
+                    </div>
+
+
+                    <div class="setting-row">
+
+                        <div>
+                            <strong>GLOW</strong>
+                            <small>Neon lighting effects</small>
+                        </div>
+
+                        <label class="toggle">
+                            <input
+                                id="setting-glow"
+                                type="checkbox"
+                                checked
+                            >
+                            <span></span>
+                        </label>
+
+                    </div>
+
+
+                    <div class="setting-row">
+
+                        <div>
+                            <strong>BACKGROUND EFFECTS</strong>
+                            <small>Animated backgrounds</small>
+                        </div>
+
+                        <label class="toggle">
+                            <input
+                                id="setting-background"
+                                type="checkbox"
+                                checked
+                            >
+                            <span></span>
+                        </label>
+
+                    </div>
+
+                </section>
+
+
+                <!-- GAMEPLAY -->
+
+                <section class="settings-section panel">
+
+                    <div class="panel-label">GAMEPLAY</div>
+
+                    <div class="setting-row">
+
+                        <div>
+                            <strong>PRACTICE MODE</strong>
+                            <small>Enable checkpoint practice</small>
+                        </div>
+
+                        <label class="toggle">
+                            <input
+                                id="setting-practice-mode"
+                                type="checkbox"
+                                checked
+                            >
+                            <span></span>
+                        </label>
+
+                    </div>
+
+
+                    <div class="setting-row">
+
+                        <div>
+                            <strong>CONTROL STYLE</strong>
+                            <small>Choose mobile input behavior</small>
+                        </div>
+
+                        <select
+                            id="setting-control-style"
+                            class="setting-select"
+                        >
+                            <option value="button">BUTTON</option>
+                            <option value="tap">TAP SCREEN</option>
+                            <option value="both">BUTTON + TAP</option>
+                        </select>
+
+                    </div>
+
+                </section>
+
+
+                <!-- SAVE -->
+
+                <section class="settings-section panel danger-section">
+
+                    <div class="panel-label">DATA</div>
+
+                    <button
+                        id="reset-save-button"
+                        class="large-button danger"
+                        type="button"
+                    >
+                        RESET ALL SAVE DATA
+                    </button>
+
+                </section>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             ONLINE FOUNDATION
+             ===================================================== -->
+
+        <section id="online-screen" class="screen hidden">
+
+            <header class="screen-header">
+
+                <button
+                    id="online-back"
+                    class="back-button"
+                    type="button"
+                >
+                    ←
+                </button>
+
+                <div>
+                    <span class="header-label">COMMUNITY</span>
+                    <h2>ONLINE</h2>
+                </div>
+
+            </header>
+
+
+            <div class="online-layout">
+
+                <section class="online-status panel">
+
+                    <div class="online-status-indicator">
+                        <span></span>
+                    </div>
+
+                    <h2>ONLINE FOUNDATION</h2>
+
+                    <p>
+                        Online services are reserved for a future
+                        backend. Local gameplay remains fully available.
+                    </p>
+
+                </section>
+
+
+                <section class="online-option panel">
+
+                    <span class="online-icon">▣</span>
+
+                    <div>
+                        <h3>LOCAL LEVELS</h3>
+                        <p>
+                            Play levels created and saved on this device.
+                        </p>
+                    </div>
+
+                    <button
+                        id="online-local-levels-button"
+                        class="small-button"
+                        type="button"
+                    >
+                        OPEN
+                    </button>
+
+                </section>
+
+
+                <section class="online-option panel disabled">
+
+                    <span class="online-icon">◇</span>
+
+                    <div>
+                        <h3>COMMUNITY LEVELS</h3>
+                        <p>
+                            Future online level service.
+                        </p>
+                    </div>
+
+                    <button
+                        id="online-community-button"
+                        class="small-button"
+                        type="button"
+                        disabled
+                    >
+                        FUTURE
+                    </button>
+
+                </section>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             LEVEL EDITOR
+             ===================================================== -->
+
+        <section id="editor-screen" class="screen hidden">
+
+            <header class="screen-header">
+
+                <button
+                    id="editor-back"
+                    class="back-button"
+                    type="button"
+                >
+                    ←
+                </button>
+
+                <div>
+                    <span class="header-label">CREATE</span>
+                    <h2>LEVEL EDITOR</h2>
+                </div>
+
+            </header>
+
+
+            <div class="editor-layout">
+
+                <div class="editor-canvas-wrapper panel">
+
+                    <canvas
+                        id="editor-canvas"
+                        width="1280"
+                        height="720"
+                        tabindex="0"
+                        aria-label="NEON DASH level editor"
+                    ></canvas>
+
+                </div>
+
+
+                <aside class="editor-sidebar panel">
+
+                    <div class="panel-label">OBJECTS</div>
+
+                    <div class="editor-tools">
+
+                        <button
+                            class="editor-tool active"
+                            type="button"
+                            data-editor-tool="select"
+                            id="editor-tool-select"
+                        >
+                            SELECT
+                        </button>
+
+                        <button
+                            class="editor-tool"
+                            type="button"
+                            data-editor-tool="block"
+                            id="editor-tool-block"
+                        >
+                            BLOCK
+                        </button>
+
+                        <button
+                            class="editor-tool"
+                            type="button"
+                            data-editor-tool="spike"
+                            id="editor-tool-spike"
+                        >
+                            SPIKE
+                        </button>
+
+                        <button
+                            class="editor-tool"
+                            type="button"
+                            data-editor-tool="coin"
+                            id="editor-tool-coin"
+                        >
+                            COIN
+                        </button>
+
+                        <button
+                            class="editor-tool"
+                            type="button"
+                            data-editor-tool="platform"
+                            id="editor-tool-platform"
+                        >
+                            PLATFORM
+                        </button>
+
+                        <button
+                            class="editor-tool"
+                            type="button"
+                            data-editor-tool="speed"
+                            id="editor-tool-speed"
+                        >
+                            SPEED PORTAL
+                        </button>
+
+                        <button
+                            class="editor-tool"
+                            type="button"
+                            data-editor-tool="gravity"
+                            id="editor-tool-gravity"
+                        >
+                            GRAVITY PORTAL
+                        </button>
+
+                    </div>
+
+
+                    <div class="editor-actions">
+
+                        <button
+                            id="editor-new-button"
+                            class="large-button"
+                            type="button"
+                        >
+                            NEW
+                        </button>
+
+                        <button
+                            id="editor-save-button"
+                            class="large-button primary"
+                            type="button"
+                        >
+                            SAVE
+                        </button>
+
+                        <button
+                            id="editor-load-button"
+                            class="large-button"
+                            type="button"
+                        >
+                            LOAD
+                        </button>
+
+                        <button
+                            id="editor-test-button"
+                            class="large-button primary"
+                            type="button"
+                        >
+                            TEST LEVEL
+                        </button>
+
+                    </div>
+
+
+                    <div class="editor-info">
+
+                        <label for="editor-level-name">
+                            LEVEL NAME
+                        </label>
+
+                        <input
+                            id="editor-level-name"
+                            type="text"
+                            maxlength="32"
+                            value="My Neon Level"
+                        >
+
+                        <label for="editor-level-difficulty">
+                            DIFFICULTY
+                        </label>
+
+                        <select
+                            id="editor-level-difficulty"
+                        >
+                            <option value="easy">EASY</option>
+                            <option value="normal">NORMAL</option>
+                            <option value="hard">HARD</option>
+                            <option value="harder">HARDER</option>
+                            <option value="insane">INSANE</option>
+                            <option value="extreme">EXTREME</option>
+                        </select>
+
+                    </div>
+
+                </aside>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             GLOBAL MODAL
+             ===================================================== -->
+
+        <div
+            id="modal-overlay"
+            class="modal-overlay hidden"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="modal-title"
+        >
+
+            <div class="modal-card">
+
+                <button
+                    id="modal-close"
+                    class="modal-close"
+                    type="button"
+                    aria-label="Close"
+                >
+                    ×
+                </button>
+
+                <div id="modal-icon" class="modal-icon">
+                    !
+                </div>
+
+                <h2 id="modal-title">CONFIRM</h2>
+
+                <p id="modal-message">
+                    Are you sure?
+                </p>
+
+                <div class="modal-actions">
+
+                    <button
+                        id="modal-cancel"
+                        class="large-button"
+                        type="button"
+                    >
+                        CANCEL
+                    </button>
+
+                    <button
+                        id="modal-confirm"
+                        class="large-button primary"
+                        type="button"
+                    >
+                        CONFIRM
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =====================================================
+             PROFILE EDIT MODAL
+             ===================================================== -->
+
+        <div
+            id="profile-edit-modal"
+            class="modal-overlay hidden"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="profile-edit-title"
+        >
+
+            <div class="modal-card">
+
+                <button
+                    id="profile-edit-close"
+                    class="modal-close"
+                    type="button"
+                    aria-label="Close"
+                >
+                    ×
+                </button>
+
+                <h2 id="profile-edit-title">
+                    EDIT PROFILE
+                </h2>
+
+                <label for="username-input">
+                    USERNAME
+                </label>
+
+                <input
+                    id="username-input"
+                    type="text"
+                    maxlength="16"
+                    autocomplete="off"
+                    value="SAII"
+                >
+
+                <div class="modal-actions">
+
+                    <button
+                        id="profile-edit-cancel"
+                        class="large-button"
+                        type="button"
+                    >
+                        CANCEL
+                    </button>
+
+                    <button
+                        id="profile-edit-save"
+                        class="large-button primary"
+                        type="button"
+                    >
+                        SAVE
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =====================================================
+             NOTIFICATION / TOAST
+             ===================================================== -->
+
+        <div
+            id="toast-container"
+            aria-live="polite"
+            aria-atomic="true"
+        ></div>
+
+
+        <!-- =====================================================
+             AUDIO ELEMENT PLACEHOLDER
+             =====================================================
+
+             No external audio files are required.
+             game.js will use Web Audio API for original effects.
+             ===================================================== -->
+
+        <div id="audio-system" aria-hidden="true"></div>
+
+    </div>
+
+
+    <!-- =========================================================
+         GAME JAVASCRIPT
+         ========================================================= -->
+
+    <script src="game.js"></script>
+
+</body>
+</html>
